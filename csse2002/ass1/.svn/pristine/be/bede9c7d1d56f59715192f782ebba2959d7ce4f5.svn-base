@@ -1,0 +1,60 @@
+package tms.route;
+
+import tms.intersection.Intersection;
+import tms.sensors.Sensor;
+
+import java.util.List;
+
+public class Route {
+    String id;
+    Intersection from;
+    int defaultSpeed;
+    public Route(String id, Intersection from, int defaultSpeed){
+        this.id = id;
+        this.from = from;
+        this.defaultSpeed = defaultSpeed;
+    }
+
+    public Intersection getFrom(){
+        return from;
+    }
+
+    public TrafficLight getTrafficLight(){
+
+    }
+
+    public List<Sensor> getSensors(){
+
+    }
+
+    public boolean hasSpeedSign(){
+
+    }
+
+    public int getSpeed(){
+
+    }
+
+    public void setSignal(TrafficSignal signal){
+
+    }
+
+    public void addTrafficLight(){
+
+    }
+
+    public void addSpeedSign(){
+
+    }
+    public void setSpeedLimit(int newSpeed){
+
+    }
+
+    public void addSensor(Sensor sensor){
+
+    }
+
+    public String toString(){
+
+    }
+}

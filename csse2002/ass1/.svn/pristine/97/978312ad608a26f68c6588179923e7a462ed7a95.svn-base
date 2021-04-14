@@ -1,0 +1,58 @@
+package tms.intersection;
+
+import tms.route.Route;
+import tms.util.RouteNotFoundException;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Intersection {
+    private String id;
+    private List<Route> routes = new ArrayList<>();
+    private List<Intersection> intersections = new ArrayList<>();
+
+    public Intersection(String id){
+        this.id = id;
+
+    }
+    public List<Intersection> getConnectedIntersections(){
+        return intersections;
+    }
+
+
+    public  void addConnection(Intersection from, int defaultSpeed) throws IllegalStateException{
+        if (defaultSpeed < 0){
+            throw new IllegalStateException();
+        }
+
+
+
+        Route newRoute = new Route((from + ":" + id), from, defaultSpeed);
+
+        if (intersections.contains(newRoute)) {
+
+        }
+
+
+
+
+
+    }
+    public String getId(){
+        return id;
+    }
+
+    public List<Route> getConnections(){
+        return routes;
+    }
+
+    public Route getConnection(Intersection from) throws RouteNotFoundException{
+        return null;
+    }
+
+    public void reduceIncomingSpeedSigns(){
+
+    }
+
+}

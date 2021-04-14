@@ -1,0 +1,157 @@
+package tms.route;
+
+import tms.intersection.Intersection;
+import tms.sensors.DemoPressurePad;
+import tms.sensors.DemoSensor;
+import tms.sensors.Sensor;
+import tms.util.DuplicateSensorException;
+
+import java.util.ArrayList;
+import java.util.DuplicateFormatFlagsException;
+import java.util.List;
+
+public class Route {
+    private String id;
+    private Intersection from;
+    private int defaultSpeed;
+    private TrafficLight trafficLight;
+    private SpeedSign speedSign;
+    private List<Sensor> sensorArrayList = new ArrayList<>();
+
+
+    /**
+     * Creates a new route with the given ID, origin intersection and default speed.
+     * @param id - the identifier string to represent the route
+     * @param from - the intersection from which this route originates
+     * @param defaultSpeed - the default speed limit for vehicles on this route
+     */
+
+    public Route(String id, Intersection from, int defaultSpeed) {
+        this.id = id;
+        this.from = from;
+        this.defaultSpeed = defaultSpeed;
+    }
+
+    /**
+     * Returns the intersection at which this route begins.
+     * @return the intersection this route goes from
+     */
+    public Intersection getFrom() {
+        return from;
+    }
+
+    /**
+     * Returns the traffic light signal on the route, or null if none exists.
+     * @return the TrafficLight instance deployed on the route
+     */
+    public TrafficLight getTrafficLight() {
+        return trafficLight;
+    }
+
+    /**
+     * Returns a new list containing all the sensors on this route.
+     * @return list of all sensors on this route
+     */
+
+    public List<Sensor> getSensors() {
+        return sensorArrayList;
+
+    }
+
+    /**
+     * Returns true if this route has an electronic speed sign; false otherwise.
+     * @return whether an electronic speed sign is present on this route
+     */
+    public boolean hasSpeedSign() {
+        return !(speedSign == null);
+
+
+    }
+
+    /**
+     * Returns the currently active speed limit for vehicles on this route.
+     * @return the current speed limit of the route
+     */
+
+    public int getSpeed() {
+        if (hasSpeedSign()) {
+            return speedSign.getCurrentSpeed();
+        } else {
+            return defaultSpeed;
+        }
+
+
+    }
+
+    /**
+     * Sets the traffic signal if there is a traffic light controlling traffic flow on this route.
+     * @param signal  - the traffic light signal to set
+     */
+    public void setSignal(TrafficSignal signal) {
+        if (!(trafficLight == null)) {
+            trafficLight.setSignal(signal);
+        }
+
+    }
+
+    public void addTrafficLight() {
+        trafficLight = new TrafficLight();
+
+
+    }
+
+    public void addSpeedSign(int initialSpeed) {
+        if (initialSpeed < 0) {
+            throw new IllegalArgumentException();
+        }
+        speedSign = new SpeedSign(initialSpeed);
+
+
+    }
+
+    public void setSpeedLimit(int newSpeed) {
+        if (speedSign == null) {
+            throw new IllegalStateException();
+
+        }
+        if (newSpeed < 0) {
+            throw new IllegalArgumentException();
+        }
+        speedSign.setCurrentSpeed(newSpeed);
+
+
+    }
+
+    public void addSensor(Sensor sensor) throws DuplicateSensorException {
+       for (Sensor s: sensorArrayList){
+           if(sensor.getClass() == s.getClass()){
+               throw new DuplicateSensorException();
+           }
+       }
+       sensorArrayList.add(sensor);
+
+    }
+
+
+
+    public String toString() {
+        if (!hasSpeedSign()) {
+            return id + ":" + defaultSpeed + ":" + sensorArrayList.size();
+        }
+        else if (hasSpeedSign()) {
+            return id + ":" + defaultSpeed + ":" + sensorArrayList.size() + ":" + getSpeed();
+        }
+        else if (sensorArrayList.size() > 0) {
+            return "ToDo";
+        }
+        else{
+            return "something";
+        }
+    }
+}
+
+
+
+
+
+

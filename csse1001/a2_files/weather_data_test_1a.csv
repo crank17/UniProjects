@@ -1,0 +1,4 @@
+Date,Minimum Temperature (C),Maximum Temperature (C),Rainfall (mm),Sunshine (hours),Relative Humidity (%),Cloud Cover (oktas),Wind Direction,Wind Speed (km/h),Maximum Wind Gust (km/h),MSL Pressure (hPa)
+1/02/2019,29,44,1,10,49,1,N,14,40,1015
+2/02/2019,30,45,2,10,50,2,SE,15,60,1016
+3/02/2019,31,46,3,10,51,3,W,16,100,1017

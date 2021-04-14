@@ -1,0 +1,131 @@
+package tms.route;
+
+import tms.intersection.Intersection;
+import tms.sensors.DemoPressurePad;
+import tms.sensors.DemoSensor;
+import tms.sensors.Sensor;
+import tms.util.DuplicateSensorException;
+
+import java.util.ArrayList;
+import java.util.DuplicateFormatFlagsException;
+import java.util.List;
+
+public class Route {
+    private String id;
+    private Intersection from;
+    private int defaultSpeed;
+    private TrafficLight trafficLight = null;
+    private SpeedSign speedSign = null;
+
+    List<Sensor> sensorArrayList = new ArrayList<>();
+
+
+    public Route(String id, Intersection from, int defaultSpeed) {
+        this.id = id;
+        this.from = from;
+        this.defaultSpeed = defaultSpeed;
+    }
+
+    public Intersection getFrom() {
+        return from;
+    }
+
+    public TrafficLight getTrafficLight() {
+        return trafficLight;
+    }
+
+    public List<Sensor> getSensors() {
+        return sensorArrayList;
+
+    }
+
+    public boolean hasSpeedSign() {
+        return !(speedSign == null);
+
+
+    }
+
+    public int getSpeed() {
+        if (hasSpeedSign()) {
+            return speedSign.getCurrentSpeed();
+        } else {
+            return defaultSpeed;
+        }
+
+
+    }
+
+    public void setSignal(TrafficSignal signal) {
+        if (!(trafficLight == null)) {
+            trafficLight.setSignal(signal);
+        }
+
+    }
+
+    public void addTrafficLight() {
+        TrafficLight newTrafficLight = new TrafficLight();
+
+
+    }
+
+    public void addSpeedSign(int initialSpeed) {
+        if (initialSpeed < 0) {
+            throw new IllegalArgumentException();
+        }
+        SpeedSign newSpeedSign = new SpeedSign(initialSpeed);
+
+
+    }
+
+    public void setSpeedLimit(int newSpeed) {
+        if (speedSign == null) {
+            throw new IllegalStateException();
+
+        }
+        if (newSpeed < 0) {
+            throw new IllegalArgumentException();
+        }
+        speedSign.setCurrentSpeed(newSpeed);
+
+
+    }
+
+    public void addSensor(Sensor sensor) throws DuplicateSensorException {
+        boolean check = sensorArrayList.contains(sensor);
+        if (check) {
+            throw new DuplicateSensorException();
+        } else {
+            sensorArrayList.add(sensor);
+
+        }
+
+
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        return true;
+    }
+
+    public String toString() {
+        if (!hasSpeedSign()) {
+            return id + ":" + defaultSpeed + ":" + sensorArrayList.size();
+        }
+        if (hasSpeedSign()) {
+            return id + ":" + defaultSpeed + ":" + sensorArrayList.size() + ":" + getSpeed();
+        }
+        if (sensorArrayList.size() > 0) {
+            return "ToDo";
+        }
+        else{
+            return "something";
+        }
+    }
+}
+
+
+
+
+
+

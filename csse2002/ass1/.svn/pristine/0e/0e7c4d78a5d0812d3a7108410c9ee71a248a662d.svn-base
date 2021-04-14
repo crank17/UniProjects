@@ -1,0 +1,20 @@
+package tms.util;
+
+public class TimedItemManager implements TimedItem {
+    private TimedItemManager(){
+        return;
+    }
+
+    public void registerTimedItem(TimedItem timedItem){
+
+    }
+
+    public static TimedItemManager getTimedManager(){
+        return null;
+
+    }
+
+    public void oneSecond(){
+
+    }
+}

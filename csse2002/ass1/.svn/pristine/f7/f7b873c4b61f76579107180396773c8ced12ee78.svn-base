@@ -1,0 +1,33 @@
+package tms.util;
+
+import java.util.ArrayList;
+
+public class TimedItemManager implements TimedItem {
+    private ArrayList<TimedItem> timedItems = new ArrayList<TimedItem>();
+    private static TimedItemManager singleton = null;
+
+    private TimedItemManager(){
+
+
+    }
+
+    public void registerTimedItem(TimedItem timedItem){
+        timedItems.add(timedItem);
+    }
+
+    public static TimedItemManager getTimedManager(){
+        if(singleton == null){
+            singleton = new TimedItemManager();
+
+        }
+        return singleton;
+
+    }
+
+    public void oneSecond(){
+        for (TimedItem func : timedItems) {
+            func.oneSecond();
+        }
+
+    }
+}

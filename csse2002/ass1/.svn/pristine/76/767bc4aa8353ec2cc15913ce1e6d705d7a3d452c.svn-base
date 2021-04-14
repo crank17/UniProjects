@@ -1,0 +1,4 @@
+package tms.route;
+
+public class SpeedSign {
+}

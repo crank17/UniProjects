@@ -1,0 +1,115 @@
+package tms.intersection;
+
+import tms.route.Route;
+import tms.util.RouteNotFoundException;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Intersection {
+    private String id;
+    private List<Route> routes = new ArrayList<>();
+    private List<Intersection> intersections = new ArrayList<>();
+
+
+    /**
+     * Creates a new intersection with the given identifier.
+     * @param id - a unique string identifier
+     */
+    public Intersection(String id){
+        this.id = id;
+
+    }
+
+    /**
+     * Returns the ID of this intersection.
+     * @return the ID
+     */
+    public String getId(){
+        return id;
+    }
+
+    /**
+     * Gets a list containing all intersections that have incoming routes to this intersection.
+     * If no such intersections exist, return an empty list.
+     * @return a list of all intersections that feed a route that ends at this intersection
+     */
+    public List<Intersection> getConnectedIntersections(){
+        return intersections;
+    }
+
+    /**
+     * Creates a new Route originating from the given intersection and adds it to our list of incoming routes.
+     * @param from - the intersection the connection is from
+     * @param defaultSpeed - the connecting route's default speed
+     * @throws IllegalStateException - if a route already exists connecting this intersection and the given intersection
+     * @throws IllegalArgumentException - if the given default speed is negative
+     */
+    public  void addConnection(Intersection from, int defaultSpeed) throws IllegalStateException{
+        if (defaultSpeed < 0){
+            throw new IllegalArgumentException();
+        }
+        Route newRoute = new Route((from + ":" + id), from, defaultSpeed);
+
+        if (routes.contains(newRoute)) {
+            throw new IllegalStateException();
+
+        }
+    }
+
+    /**
+     * Returns a new list containing all the incoming connections to this intersection.
+     * @return list of all connecting routes to this intersection
+     */
+    public List<Route> getConnections(){
+        return routes;
+    }
+
+    /**
+     * Given an origin intersection, returns the route that connects it to this destination intersection.
+     * @param from - an intersection that is connected to this intersection
+     * @return - the route that goes from 'from' to this intersection
+     * @throws RouteNotFoundException - if no route exists from the given intersection to this intersection
+     */
+    public Route getConnection(Intersection from) throws RouteNotFoundException{
+        for (Route r: routes){
+            if (r.getFrom() != from){
+                throw new RouteNotFoundException();
+
+            }
+            else{
+                return r;
+            }
+        }
+        return null;
+
+
+    }
+
+    /**
+     * Reduces the speed limit on incoming routes to this intersection.
+     * All incoming routes with an electronic speed sign should have their speed limit changed to be the greater of 50
+     * and the current displayed speed minus 10.
+     *Routes without an electronic speed sign should not be affected.
+     *No speed limits should be increased as a result of calling this method, ie. routes with a speed limit of 50 or
+     * below should not be affected.
+     */
+    public void reduceIncomingSpeedSigns(){
+        for (Route r:routes){
+            if (r.hasSpeedSign() && r.getSpeed() > 50){
+                r.setSpeedLimit((r.getSpeed())-10);
+            }
+        }
+
+    }
+
+    /**
+     * Returns the string representation of this intersection.
+     * @return string representation of this intersection
+     */
+    public String toString(){
+        return id;
+    }
+
+}
