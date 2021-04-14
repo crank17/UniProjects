@@ -1,3 +1,5 @@
+#Basic Program to view acceleration of mobile device over WiFi
+
 import random
 import time
 
